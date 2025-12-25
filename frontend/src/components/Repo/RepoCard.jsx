@@ -1,38 +1,47 @@
 "use client";
 
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Github, Star, BookOpen, Loader2 } from "lucide-react";
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Github,
+  Star,
+  GitFork,
+  BookOpen,
+  Loader2,
+  Circle,
+} from "lucide-react";
+
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import api from "@/api/api";
 import { useAuth } from "@/context/AuthContext";
 
 export default function RepoCard({ repo }) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-  const owner = user?.login;
+  const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
-    if (loading) return;
-    if (!owner || !repo?.name) return;
-
+    if (loading || !user?.login || !repo?.name) return;
     setLoading(true);
     try {
       const res = await api.post("/readme/generate", {
-        owner,
+        owner: user.login,
         repo: repo.name,
       });
-
       if (res.data?.success) {
         navigate("/generate", {
           state: { readme: res.data.data, repo: repo.name },
         });
       }
-    } catch {
-      alert("Failed to generate README. Try again.");
     } finally {
       setLoading(false);
     }
@@ -40,61 +49,120 @@ export default function RepoCard({ repo }) {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
-      className="w-full sm:w-80"
+      whileHover={{ y: -6 }}
+      transition={{ type: "spring", stiffness: 260, damping: 22 }}
+      className="h-full"
     >
-      <Card className="border border-border shadow-sm hover:shadow-lg transition-shadow duration-200">
-        <CardHeader className="pb-2">
-          <CardTitle
-            className="flex items-center justify-between text-base truncate"
-            title={repo.name}
-          >
-            <span className="truncate">{repo.name}</span>
-            <Star className="w-4 h-4 text-yellow-400 shrink-0" />
-          </CardTitle>
+      <Card
+        className="
+          group relative flex h-full flex-col
+          overflow-hidden
+          border-border/40 bg-card/40 backdrop-blur-md
+          transition-all hover:border-primary/40
+        "
+      >
+        {/* Hover gradient */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+        {/* ---------- HEADER ---------- */}
+        <CardHeader className="relative z-10 pb-2">
+          <div className="flex items-start justify-between gap-3 min-w-0">
+            <div className="min-w-0 flex-1">
+              <CardTitle
+                className="truncate text-sm font-semibold tracking-tight"
+                title={repo.name}
+              >
+                {repo.name}
+              </CardTitle>
+
+              <div className="mt-1 flex items-center gap-3 text-[11px] text-muted-foreground">
+                {repo.language && (
+                  <span className="flex items-center gap-1 truncate">
+                    <Circle className="h-2 w-2 fill-primary text-primary" />
+                    {repo.language}
+                  </span>
+                )}
+
+                <span className="flex items-center gap-1 shrink-0">
+                  <Star className="h-3 w-3 text-amber-500" />
+                  {repo.stargazers_count || 0}
+                </span>
+              </div>
+            </div>
+
+            <Badge
+              variant={repo.fork ? "secondary" : "outline"}
+              className="shrink-0 text-[10px]"
+            >
+              {repo.fork ? (
+                <span className="flex items-center gap-1">
+                  <GitFork className="h-3 w-3" /> Fork
+                </span>
+              ) : (
+                "Source"
+              )}
+            </Badge>
+          </div>
         </CardHeader>
 
-        <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground line-clamp-3">
-            {repo.description || "No description provided."}
+        {/* ---------- CONTENT ---------- */}
+        <CardContent className="relative z-10 flex-1 min-h-0 px-4">
+          <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+            {repo.description ||
+              "Ready for clean, high-quality README generation."}
           </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-            <Button asChild variant="outline" size="sm" className="flex-1">
-              <a
-                href={repo.html_url}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1 justify-center"
-              >
-                <Github className="w-4 h-4" />
-                View
-              </a>
-            </Button>
-
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              onClick={handleGenerate}
-              disabled={loading}
-              className="flex items-center gap-2 justify-center flex-1 min-w-[140px]"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <BookOpen className="w-4 h-4" />
-                  Generate README
-                </>
-              )}
-            </Button>
-          </div>
         </CardContent>
+
+        {/* ---------- FOOTER ---------- */}
+        <CardFooter className="relative z-10 flex gap-2 pt-2">
+          <Button
+            asChild
+            variant="outline"
+            size="icon"
+            className="h-9 w-9 shrink-0"
+          >
+            <a
+              href={repo.html_url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub repository"
+            >
+              <Github className="h-4 w-4" />
+            </a>
+          </Button>
+
+          <Button
+            onClick={handleGenerate}
+            disabled={loading}
+            className="h-9 w-[80%] font-semibold active:scale-[0.97]"
+          >
+            <AnimatePresence mode="wait">
+              {loading ? (
+                <motion.span
+                  key="loading"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  className="flex items-center"
+                >
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Analyzing
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="idle"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  className="flex items-center"
+                >
+                  <BookOpen className="mr-2 h-4 w-2" />
+                  Generate README
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </Button>
+        </CardFooter>
       </Card>
     </motion.div>
   );
