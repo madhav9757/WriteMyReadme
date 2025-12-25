@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sun, Moon, Menu, Sparkles, Github, ChevronDown } from "lucide-react";
 import { useTheme } from "next-themes";
 
-import GitHubLoginButton from "@/components/Auth/GitHubLoginButton";
-import LogoutButton from "@/components/Auth/LogoutButton";
+import GitHubLoginButton from "@/components/auth/GitHubLoginButton";
+import LogoutButton from "@/components/auth/LogoutButton";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
