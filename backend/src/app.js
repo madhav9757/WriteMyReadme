@@ -22,7 +22,7 @@ app.use(
 /* ---------------------------- CORS Setup ------------------------------- */
 app.use(
   cors({
-    origin: ENV.CORS_ORIGIN,
+    origin: "https://write-my-readme-qc99f.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
