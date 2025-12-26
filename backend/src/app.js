@@ -51,12 +51,7 @@ if (ENV.NODE_ENV !== "production") {
 app.use("/api", routes);
 
 /* ----------------------------- Root / Favicon ---------------------------------- */
-app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Readme Generator Backend is running!",
-  });
-});
+
 
 app.get("/favicon.ico", (req, res) => res.status(204));
 
