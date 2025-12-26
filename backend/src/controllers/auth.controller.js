@@ -47,7 +47,7 @@ export const githubCallback = asyncHandler(async (req, res) => {
   res.cookie("auth_token", jwtToken, {
     httpOnly: true,
     secure: ENV.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
