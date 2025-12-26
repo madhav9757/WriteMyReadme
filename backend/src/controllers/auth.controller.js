@@ -2,7 +2,10 @@ import crypto from "crypto";
 import { ENV } from "../config/env.js";
 import { GITHUB_OAUTH_URL } from "../config/github.config.js";
 import { tokenStore } from "../services/auth/token.store.js";
-import { exchangeCodeForToken, fetchGitHubUser } from "../services/auth/github.service.js";
+import {
+  exchangeCodeForToken,
+  fetchGitHubUser,
+} from "../services/auth/github.service.js";
 import { signJwt, verifyJwt } from "../services/auth/jwt.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -46,8 +49,8 @@ export const githubCallback = asyncHandler(async (req, res) => {
 
   res.cookie("auth_token", jwtToken, {
     httpOnly: true,
-    secure: ENV.NODE_ENV === "production",
-    sameSite: "none",
+    secure: true, // ✅ ALWAYS true on Vercel
+    sameSite: "none", // ✅ required for cross-origin
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
