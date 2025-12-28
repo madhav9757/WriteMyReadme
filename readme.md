@@ -1,161 +1,156 @@
 # WriteMyReadme
 
-## Overview  
-WriteMyReadme is an AI‑powered solution that automatically generates professional GitHub README files.  
-- **Backend** – A Node.js/Express API that handles GitHub OAuth, JWT authentication, repository data retrieval, and AI‑based README generation & beautification.  
-- **Frontend** – A React/Vite application that provides a user interface for logging in with GitHub, browsing repositories, and generating README content.  
+## Overview
+WriteMyReadme is an AI‑powered service that automatically generates professional GitHub README files for your repositories.  
+- The **backend** handles authentication with GitHub, calls an AI model to generate and beautify README content, and exposes REST endpoints.  
+- The **frontend** provides a polished React UI that lets users log in with GitHub, select a repository, and view or download the generated README.
 
-The project stitches together GitHub’s REST API, OpenAI’s language model, and a clean UI to give developers a seamless README creation workflow.
+## Features
+- **GitHub OAuth** – Secure login via GitHub, with state protection and cookie‑based flow.  
+- **Repository Listing** – Fetches the authenticated user’s public repositories for selection.  
+- **AI README Generation** – Uses an OpenAI compatible API to produce a README from repository metadata.  
+- **Beautification** – Post‑processes the generated text to improve formatting and Markdown quality.  
+- **Rate limiting** – Prevents abuse of the API endpoints.  
+- **CORS & Security** – Configured with Helmet, CORS, and cookie security flags.  
+- **Responsive UI** – Built with React + Vite and a component library (shadcn/ui).  
+- **Dark mode & theming** – Theme provider supports light/dark themes.  
 
----
+## Tech Stack
+- **Backend**
+  - Node.js (ES modules)
+  - Express
+  - Helmet, CORS, Morgan, Cookie‑Parser
+  - OpenAI SDK (or OpenRouter)
+  - Octokit (GitHub API)
+  - JWT for session tokens
+- **Frontend**
+  - React (Vite)
+  - shadcn/ui components
+  - Vite, PostCSS, ESLint
+  - React Router
+  - Axios (via custom `api.js`)
+- **Other**
+  - ESLint, Prettier
+  - Vercel deployment configuration (`vercel.json`)
 
-## Features  
-- **GitHub OAuth Authentication** – Secure login with GitHub, backed by JWT sessions.  
-- **Repository Explorer** – Fetch and display the authenticated user’s repositories.  
-- **AI README Generation** – Generate a README from scratch using OpenAI’s GPT models.  
-- **Readme Beautifier** – Format and polish generated Markdown for a polished look.  
-- **Rate‑Limiting & Security** – Helmet, CORS, request logging, and middleware for error handling.  
-- **Responsive UI** – Built with React + shadcn/ui components, fully responsive and accessible.  
+## Installation
 
----
-
-## Tech Stack  
-
-| Category | Technology |
-|----------|------------|
-| **Backend** | Node.js, Express, OpenAI SDK, Axios, jsonwebtoken, dotenv, cors, helmet, morgan, cookie‑parser, nodemon |
-| **Frontend** | React (Vite), shadcn/ui, PostCSS, Tailwind CSS (via shadcn/ui), Vite, React Router |
-| **Auth** | GitHub OAuth, JWT |
-| **AI** | OpenAI (ChatGPT/Claude) |
-| **Utilities** | Async handlers, logger, constants |
-
----
-
-## Installation  
-
-### Prerequisites  
-- Node.js 18+  
-- GitHub account  
-
-### 1. Clone the repository  
 ```bash
+# Clone the repo
 git clone https://github.com/madhav9757/WriteMyReadme.git
 cd WriteMyReadme
+
+# Install dependencies for both packages
+npm install
+
+# (Optional) Build the frontend for production
+npm run build
 ```
 
-### 2. Backend  
+### Backend
 
 ```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file in `backend/` with the variables listed below (see *Environment Variables*).  
+### Frontend
 
 ```bash
-npm run dev   # or npm start for production
+cd frontend
+npm install
 ```
 
-The backend will listen on the port specified in `PORT` (default `5000`).
+## Usage
 
-### 3. Frontend  
+### Running in Development
 
 ```bash
-cd ../frontend
-npm install
+# Start the backend
+cd backend
+npm run dev   # or npm start if dev script not defined
+
+# Start the frontend
+cd frontend
 npm run dev
 ```
 
-The frontend will be available at `http://localhost:5173` by default.
+The frontend will be served on `http://localhost:5173` and the backend on `http://localhost:5000`.  
+The frontend automatically points to the backend for API requests.
 
-> **Tip**: Run both services concurrently in separate terminals or set up a script in the root `package.json` to start them together.
+### Production
 
----
+```bash
+# Backend
+cd backend
+npm run build   # if a build step exists
+npm start
 
-## Usage  
-
-1. Open the frontend URL (`http://localhost:5173`).  
-2. Click **Login with GitHub** – you’ll be redirected to GitHub’s OAuth flow.  
-3. After authentication, you’ll be returned to the app.  
-4. Browse your repositories on the **Dashboard**.  
-5. Select a repo → choose **Generate README** → AI will produce a draft.  
-6. Optionally click **Beautify** to format the Markdown.  
-7. Copy the final README content or download it.
-
-All API interactions are routed through `/api/*` endpoints on the backend.
-
----
-
-## Project Structure  
-
-```
-├── backend
-│   ├── src
-│   │   ├── app.js               # Express app setup
-│   │   ├── server.js            # Server entry point
-│   │   ├── config/              # Environment & third‑party config
-│   │   ├── controllers/         # Route handlers
-│   │   ├── middlewares/         # Express middleware
-│   │   ├── routes/              # API route definitions
-│   │   ├── services/            # Business logic (AI, GitHub, Auth)
-│   │   └── utils/               # Helpers (async, logger, constants)
-│   └── package.json
-├── frontend
-│   ├── src
-│   │   ├── App.jsx
-│   │   ├── api/                 # API client
-│   │   ├── components/          # UI components (Generate, Repo, Auth, UI library)
-│   │   ├── context/             # React context (Auth, Theme)
-│   │   ├── hooks/               # Custom hooks
-│   │   ├── lib/                 # Utility functions
-│   │   ├── pages/               # Page components
-│   │   ├── routers/             # Router definitions
-│   │   └── styles/              # Global CSS
-│   ├── index.html
-│   ├── vite.config.js
-│   └── package.json
-└── README.md
+# Frontend
+cd frontend
+npm run build
+# Serve the static files (e.g., with Vercel, Netlify, or a static server)
 ```
 
-- **backend/src/controllers**: Implements API logic – authentication, README generation, repo listing.  
-- **backend/src/services**: Contains reusable services (e.g., `github.service.js` for GitHub API calls, `readme.generator.js` for AI generation).  
-- **frontend/src/components/ui**: Re‑exports shadcn/ui components for a consistent design system.  
-- **frontend/src/pages**: High‑level pages like `Dashboard`, `Login`, `Generate`.  
+## Project Structure
 
----
+```
+├─ backend/          # Server side
+│  ├─ src/
+│  │  ├─ config/     # Environment, AI, GitHub, JWT settings
+│  │  ├─ services/   # Business logic (AI, Auth, GitHub)
+│  │  ├─ controllers/ # Route handlers
+│  │  ├─ routes/      # Express routers
+│  │  ├─ middlewares/ # Auth, error handling, rate limiting
+│  │  ├─ utils/       # Helpers (logger, asyncHandler, constants)
+│  │  └─ server.js    # Express app entry point
+│  └─ package.json
+├─ frontend/         # Client side
+│  ├─ src/
+│  │  ├─ components/  # UI components (auth, repo, generate, ui primitives)
+│  │  ├─ pages/       # Route pages (Login, Dashboard, etc.)
+│  │  ├─ routers/     # React Router setup
+│  │  ├─ context/     # Auth & theme context
+│  │  ├─ api/         # API client wrapper
+│  │  ├─ lib/         # Utility helpers
+│  │  ├─ styles/      # Global CSS
+│  │  └─ main.jsx     # App bootstrap
+│  ├─ index.html
+│  ├─ vite.config.js
+│  └─ package.json
+└─ README.md
+```
 
-## Environment Variables  
+## Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `NODE_ENV` | Runtime environment (`development`/`production`). | No (defaults to `development`) |
-| `PORT` | Backend listening port. | No (defaults to `5000`) |
-| `CLIENT_URL` | Frontend URL (used for CORS). | **Yes** |
-| `CORS_ORIGIN` | Allowed CORS origin. | No (defaults to `CLIENT_URL`) |
-| `JWT_SECRET` | Secret key for signing JWT tokens. | **Yes** |
-| `JWT_EXPIRES_IN` | JWT expiry (e.g., `1h`). | No (defaults to `1h`) |
-| `GITHUB_CLIENT_ID` | GitHub OAuth app client ID. | **Yes** |
-| `GITHUB_CLIENT_SECRET` | GitHub OAuth app client secret. | **Yes** |
-| `GITHUB_CALLBACK_URL` | Redirect URL after GitHub OAuth. | **Yes** |
-| `GITHUB_ACCESS_TOKEN` | Personal Access Token for GitHub API (optional, used for repo fetching). | **Yes** |
-| `OPENAI_API_KEY` | API key for OpenAI services. | **Yes** |
-| `OPENROUTER_API_KEY` | (Optional) API key for OpenRouter. | No |
+The backend expects the following environment variables. They can be set in a `.env` file at the root of `backend/` or via your deployment platform.
 
-> **Note:** Create a `.env` file in the `backend/` directory containing these variables.
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NODE_ENV` | Runtime environment (`development` or `production`) | `production` |
+| `PORT` | Port for the Express server | `5000` |
+| `CLIENT_URL` | Frontend base URL (used for redirects and CORS) | `https://write-my-readme.vercel.app` |
+| `CORS_ORIGIN` | Allowed CORS origin (defaults to `CLIENT_URL`) | `https://write-my-readme.vercel.app` |
+| `JWT_SECRET` | Secret key for signing JWTs | `supersecret` |
+| `JWT_EXPIRES_IN` | JWT expiry duration | `1h` |
+| `GITHUB_CLIENT_ID` | GitHub OAuth App Client ID | `abc123` |
+| `GITHUB_CLIENT_SECRET` | GitHub OAuth App Client Secret | `def456` |
+| `GITHUB_CALLBACK_URL` | URL GitHub redirects to after auth | `https://write-my-readme.vercel.app/api/auth/callback` |
+| `GITHUB_PAT` | Personal Access Token for GitHub API calls | `ghp_XXXXXXXXXXXXXXXXXXXX` |
+| `OPENROUTER_API_KEY` | API key for the OpenRouter / OpenAI compatible service | `sk-XXXXXXXXXXXXXXXX` |
+| `OPENAI_API_KEY` | (Optional) Standard OpenAI key if used instead of OpenRouter | `sk-XXXXXXXXXXXXXXXX` |
 
----
+> **Note**: The `OPENAI_API_KEY` is referenced in the AI service, but the environment file requires `OPENROUTER_API_KEY`. Adjust accordingly based on the provider you choose.
 
-## Contributing  
+## Contributing
 
-1. Fork the repository.  
-2. Create a feature branch (`git checkout -b feature/awesome-feature`).  
-3. Commit your changes with clear messages.  
-4. Submit a pull request.  
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/your-feature`.
+3. Commit your changes with clear messages.
+4. Open a pull request with a description of the changes.
 
-Please follow the existing code style and run tests (if any) before submitting.
+All contributions must follow the project's coding style and pass linting checks.
 
----
+## License
 
-## License  
-
-This project does not specify a license. Please refer to the repository’s LICENSE file if one is added.
+The license for this project is not specified. If you plan to use or modify it, please add an appropriate license file.
