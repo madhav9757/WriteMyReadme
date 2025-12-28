@@ -29,7 +29,6 @@ app.use(
   })
 );
 
-app.options("*", cors());
 
 /* ------------------------- Request Parsers ------------------------------ */
 app.use(express.json({ limit: "1mb" }));
