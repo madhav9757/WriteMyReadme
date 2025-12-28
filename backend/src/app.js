@@ -21,14 +21,13 @@ app.use(
 
 /* ---------------------------- CORS Setup ------------------------------- */
 const allowedOrigins = [
-  "https://write-my-readme-qc99f.vercel.app", // Production Frontend
-  "http://localhost:5173",                   // Local Development
+  "https://write-my-readme-qc99f.vercel.app",
+  "http://localhost:5173",
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
@@ -42,8 +41,8 @@ app.use(
   })
 );
 
-// Explicitly handle pre-flight requests for all routes
-app.options("*", cors());
+// Use the regex-safe version for the options pre-flight
+app.options("(.*)", cors());
 
 /* ------------------------- Request Parsers ------------------------------ */
 app.use(express.json({ limit: "1mb" }));
