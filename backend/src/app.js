@@ -52,7 +52,13 @@ if (ENV.NODE_ENV !== "production") {
 app.use("/api", routes);
 
 /* ----------------------------- Root / Favicon ---------------------------------- */
-
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    service: "README Generator Backend",
+    uptime: process.uptime()
+  })
+})
 
 app.get("/favicon.ico", (req, res) => res.status(204));
 
