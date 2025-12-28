@@ -13,42 +13,35 @@ const app = express();
 
 /* ---------------------------- CORS Setup ------------------------------- */
 const allowedOrigins = [
-  "https://write-my-readme-qc99f.vercel.app", // Your Production Frontend
-  "http://localhost:5173",                     // Your Local Vite Dev
+  "https://write-my-readme-qc99f.vercel.app", 
+  "https://write-my-readme-madhavs-projects-45ed597c.vercel.app", // Added your specific deployment URL
+  "http://localhost:5173",
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith(".vercel.app")) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, // Required because your Axios uses withCredentials: true
+  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "X-Requested-With",
-    "Accept",
-    "Cookie"
-  ],
-  optionsSuccessStatus: 200, // Legacy browsers/Vercel edge compatibility
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Cookie"],
+  optionsSuccessStatus: 200,
 };
 
-// 1. Apply CORS to handle all normal requests
+// 1. MUST BE FIRST: Apply CORS to all requests
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 
-// 2. Explicitly handle Preflight OPTIONS requests globally at the top
-// app.options("*", cors(corsOptions));
+// 2. EXPRESS 5 FIX: Wildcards must be named. Use {*path} or /*path
+app.options("{*path}", cors(corsOptions));
+
 /* ------------------------- Security Middleware ------------------------- */
 app.use(
   helmet({
-    // Necessary so helmet doesn't block cross-origin resources
     crossOriginResourcePolicy: false,
     crossOriginEmbedderPolicy: false,
   })
@@ -65,9 +58,7 @@ if (ENV.NODE_ENV !== "production") {
 } else {
   app.use(
     morgan("combined", {
-      stream: {
-        write: (message) => logger.info(message.trim()),
-      },
+      stream: { write: (message) => logger.info(message.trim()) },
     })
   );
 }
@@ -75,7 +66,7 @@ if (ENV.NODE_ENV !== "production") {
 /* ----------------------------- Routes ---------------------------------- */
 app.use("/api", routes);
 
-/* ----------------------------- Root / Favicon --------------------------- */
+/* ----------------------------- Root ------------------------------------ */
 app.get("/", (req, res) => {
   res.status(200).json({
     status: "OK",
@@ -87,10 +78,11 @@ app.get("/", (req, res) => {
 app.get("/favicon.ico", (req, res) => res.status(204));
 
 /* ------------------------ 404 Handler ---------------------------------- */
+// EXPRESS 5 FIX: Use app.use without a path to catch everything remaining
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: "Route not found",
+    message: `Route ${req.originalUrl} not found`,
   });
 });
 
