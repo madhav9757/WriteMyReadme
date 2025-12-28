@@ -25,6 +25,7 @@ const allowedOrigins = [
   "http://localhost:5173",
 ];
 
+// 1. This middleware will handle both normal requests and OPTIONS automatically
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -37,12 +38,9 @@ app.use(
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Cookie"],
   })
 );
-
-// Use the regex-safe version for the options pre-flight
-app.options("(.*)", cors());
 
 /* ------------------------- Request Parsers ------------------------------ */
 app.use(express.json({ limit: "1mb" }));
