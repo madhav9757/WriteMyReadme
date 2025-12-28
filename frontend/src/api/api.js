@@ -7,10 +7,9 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // sends httpOnly cookies automatically
+  withCredentials: true,
 });
 
-// Global response interceptor for 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {

@@ -124,11 +124,9 @@ export default function Generate() {
   return (
     <TooltipProvider delayDuration={150}>
       <div className="min-h-screen bg-background text-foreground">
-        {/* Enhanced Navigation Header */}
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 shadow-sm">
           <div className="container flex h-16 items-center justify-between px-4 md:px-8">
             
-            {/* Left Section */}
             <div className="flex items-center gap-4">
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -164,7 +162,6 @@ export default function Generate() {
               </div>
             </div>
 
-            {/* Center - View Toggle */}
             <div className="absolute left-1/2 -translate-x-1/2 hidden md:block">
               <Tabs value={view} onValueChange={setView}>
                 <TabsList className="h-9 bg-muted/50">
@@ -180,7 +177,6 @@ export default function Generate() {
               </Tabs>
             </div>
 
-            {/* Right Section - Actions */}
             <div className="flex items-center gap-2">
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -267,7 +263,6 @@ export default function Generate() {
             </div>
           </div>
 
-          {/* Mobile View Toggle */}
           <div className="md:hidden border-t bg-muted/30 px-4 py-2">
             <Tabs value={view} onValueChange={setView} className="w-full">
               <TabsList className="w-full h-9 grid grid-cols-2">
@@ -282,7 +277,6 @@ export default function Generate() {
           </div>
         </header>
 
-        {/* Main Content Area */}
         <main className="container max-w-6xl py-8 px-4 md:px-8">
           <AnimatePresence mode="wait">
             {beautifying ? (
@@ -334,7 +328,6 @@ export default function Generate() {
           </AnimatePresence>
         </main>
 
-        {/* Enhanced Footer */}
         <footer className="border-t bg-muted/30 mt-12">
           <div className="container max-w-6xl px-4 md:px-8 py-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">

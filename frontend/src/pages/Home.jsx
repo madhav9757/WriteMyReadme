@@ -61,7 +61,6 @@ export default function Home() {
 
   return (
     <div className="relative flex min-h-[calc(100vh-64px)] items-center justify-center overflow-hidden px-4">
-      {/* Dynamic Background Elements */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[120px]" />
         <div className="absolute right-[10%] top-[20%] h-[250px] w-[250px] rounded-full bg-blue-500/10 blur-[100px]" />
@@ -195,7 +194,6 @@ export default function Home() {
                   Generate README
                 </Button>
 
-                {/* User Stats */}
                 <div className="grid grid-cols-3 gap-2 pt-4 text-center">
                   <div className="space-y-1">
                     <p className="text-lg font-bold">{user.public_repos || 0}</p>

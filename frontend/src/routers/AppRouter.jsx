@@ -45,13 +45,13 @@ export default function AppRouter() {
 
                 <Route
                   path="/login"
-                  element={ <Login />}
+                  element={<Login />}
                 />
 
                 <Route
                   path="/dashboard"
                   element={
-                    <ProtectedRoute >
+                    <ProtectedRoute>
                       <Dashboard />
                     </ProtectedRoute>
                   }

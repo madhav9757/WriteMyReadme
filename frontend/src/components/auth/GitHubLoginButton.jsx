@@ -36,7 +36,6 @@ export default function GitHubLoginButton() {
           </span>
         </div>
 
-        {/* Subtle background glow effect */}
         {!isLoading && (
           <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 ease-in-out" />
         )}

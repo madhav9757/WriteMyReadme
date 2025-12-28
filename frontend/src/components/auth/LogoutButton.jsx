@@ -42,15 +42,15 @@ export default function LogoutButton() {
               onClick={handleLogout}
               variant="ghost"
               disabled={loading}
-              className="h-8 w-8 md:h-8 md:w-auto md:px-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all group overflow-hidden"
+              className="h-8 w-full justify-start text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all group overflow-hidden"
             >
               {loading ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                <Loader2 className="h-3.5 w-3.5 animate-spin mr-2" />
               ) : (
-                <LogOut className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
+                <LogOut className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5 mr-2" />
               )}
               
-              <span className="hidden md:inline-block ml-2 text-xs font-medium">
+              <span className="text-xs font-medium">
                 {loading ? "Signing out..." : "Sign out"}
               </span>
             </Button>

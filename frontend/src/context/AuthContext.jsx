@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Fetch current user on mount
   useEffect(() => {
     fetchUser();
   }, []);
@@ -19,12 +18,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await api.get("/auth/me");
       
-      // If we got a successful response with user data
       if (res.data?.success && res.data?.user) {
-        // Fetch additional GitHub user details
         await fetchGitHubUserDetails(res.data.user);
       } else if (res.data?.user) {
-        // Fallback if success flag is missing
         await fetchGitHubUserDetails(res.data.user);
       }
     } catch (error) {
@@ -37,14 +33,11 @@ export const AuthProvider = ({ children }) => {
 
   const fetchGitHubUserDetails = async (authUser) => {
     try {
-      // Make a request to GitHub API to get full user details
-      // This will use the stored GitHub token via our backend
       const githubRes = await fetch(`https://api.github.com/users/${authUser.login}`);
       
       if (githubRes.ok) {
         const githubData = await githubRes.json();
         
-        // Merge auth data with GitHub profile data
         setUser({
           ...authUser,
           name: githubData.name || authUser.login,
@@ -65,7 +58,6 @@ export const AuthProvider = ({ children }) => {
           plan: githubData.plan || { name: "Free" },
         });
       } else {
-        // If GitHub API fails, use basic auth data
         setUser({
           ...authUser,
           avatar_url: `https://github.com/${authUser.login}.png`,
@@ -77,7 +69,6 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Failed to fetch GitHub details:", error);
-      // Fallback to basic data
       setUser({
         ...authUser,
         avatar_url: `https://github.com/${authUser.login}.png`,
@@ -89,7 +80,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout
   const logout = async () => {
     try {
       await api.post("/auth/logout");
@@ -101,7 +91,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Refresh user data (useful after profile updates)
   const refreshUser = async () => {
     setLoading(true);
     await fetchUser();
@@ -125,7 +114,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

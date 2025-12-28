@@ -13,12 +13,10 @@ import {
   ExternalLink,
   LayoutDashboard,
   ShieldCheck,
-  Users,
-  GitFork,
-  Calendar,
   MapPin,
   Building,
   Link as LinkIcon,
+  Calendar,
 } from "lucide-react";
 
 import RepoList from "@/components/Repo/RepoList";
@@ -130,7 +128,6 @@ export default function Dashboard() {
         animate="visible"
         className="max-w-[1400px] mx-auto space-y-8 p-4 md:p-8"
       >
-        {/* Header Section with User Info */}
         <motion.header
           variants={itemVariants}
           className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between"
@@ -235,7 +232,6 @@ export default function Dashboard() {
           </div>
         </motion.header>
 
-        {/* Stats Grid */}
         <motion.div
           variants={itemVariants}
           className="grid gap-4 sm:grid-cols-3"
@@ -267,7 +263,6 @@ export default function Dashboard() {
           ))}
         </motion.div>
 
-        {/* Main Content Section */}
         <motion.section variants={itemVariants}>
           <Card className="border-muted/60 shadow-sm overflow-hidden">
             <CardHeader className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 bg-muted/20 pb-6">
