@@ -3,28 +3,28 @@ import app from "./app.js";
 import { ENV } from "./config/env.js";
 import { logger } from "./utils/logger.js";
 
-const server = http.createServer(app);
+// Vercel needs the exported app to handle the serverless execution
+export default app;
 
-// Graceful startup
-server.listen(ENV.PORT || 8080, () => {
-  logger.info(`🚀 Server running on port ${ENV.PORT || 8080} (${ENV.NODE_ENV})`);
-});
+// ONLY run the server.listen logic if we are NOT on Vercel
+// Vercel sets the environment variable VERCEL=1 automatically
+if (!process.env.VERCEL) {
+  const server = http.createServer(app);
+  const PORT = ENV.PORT || 8080;
 
-// Graceful shutdown (important for production)
-const shutdown = (signal) => {
-  logger.warn(`⚠️ Received ${signal}. Shutting down gracefully...`);
-
-  server.close(() => {
-    logger.info("🛑 Server closed");
-    process.exit(0);
+  server.listen(PORT, () => {
+    logger.info(`🚀 Local Server running on port ${PORT} (${ENV.NODE_ENV})`);
   });
 
-  // Force exit if not closed in time
-  setTimeout(() => {
-    logger.error("❌ Forcefully shutting down");
-    process.exit(1);
-  }, 10000);
-};
+  // Graceful shutdown logic remains for local/Docker use
+  const shutdown = (signal) => {
+    logger.warn(`⚠️ Received ${signal}. Shutting down gracefully...`);
+    server.close(() => {
+      logger.info("🛑 Server closed");
+      process.exit(0);
+    });
+  };
 
-process.on("SIGTERM", () => shutdown("SIGTERM"));
-process.on("SIGINT", () => shutdown("SIGINT"));
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
+}
