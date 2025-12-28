@@ -20,11 +20,30 @@ app.use(
 );
 
 /* ---------------------------- CORS Setup ------------------------------- */
-app.use(cors({
-  origin: "https://write-my-readme-qc99f.vercel.app",
-  credentials: true,
-}));
+const allowedOrigins = [
+  "https://write-my-readme-qc99f.vercel.app", // Production Frontend
+  "http://localhost:5173",                   // Local Development
+];
 
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  })
+);
+
+// Explicitly handle pre-flight requests for all routes
+app.options("*", cors());
 
 /* ------------------------- Request Parsers ------------------------------ */
 app.use(express.json({ limit: "1mb" }));
@@ -47,14 +66,14 @@ if (ENV.NODE_ENV !== "production") {
 /* ----------------------------- Routes ---------------------------------- */
 app.use("/api", routes);
 
-/* ----------------------------- Root / Favicon ---------------------------------- */
+/* ----------------------------- Root / Favicon --------------------------- */
 app.get("/", (req, res) => {
   res.status(200).json({
     status: "OK",
     service: "README Generator Backend",
-    uptime: process.uptime()
-  })
-})
+    uptime: process.uptime(),
+  });
+});
 
 app.get("/favicon.ico", (req, res) => res.status(204));
 

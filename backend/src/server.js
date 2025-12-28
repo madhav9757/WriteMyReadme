@@ -6,8 +6,8 @@ import { logger } from "./utils/logger.js";
 const server = http.createServer(app);
 
 // Graceful startup
-server.listen(ENV.PORT, () => {
-  logger.info(`🚀 Server running on port ${ENV.PORT} (${ENV.NODE_ENV})`);
+server.listen(ENV.PORT || 8080, () => {
+  logger.info(`🚀 Server running on port ${ENV.PORT || 8080} (${ENV.NODE_ENV})`);
 });
 
 // Graceful shutdown (important for production)
@@ -26,5 +26,5 @@ const shutdown = (signal) => {
   }, 10000);
 };
 
-process.on("SIGTERM", shutdown);
-process.on("SIGINT", shutdown);
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));

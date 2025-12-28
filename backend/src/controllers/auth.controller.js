@@ -16,7 +16,7 @@ export const githubLogin = asyncHandler(async (req, res) => {
   res.cookie("oauth_state", state, {
     httpOnly: true,
     secure: ENV.NODE_ENV === "production",
-    sameSite: "lax",
+    sameSite: "none",
     maxAge: 10 * 60 * 1000,
   });
 
