@@ -11,35 +11,46 @@ import errorMiddleware from "./middlewares/error.middleware.js";
 
 const app = express();
 
+/* ---------------------------- CORS Setup ------------------------------- */
+const allowedOrigins = [
+  "https://write-my-readme-qc99f.vercel.app", // Your Production Frontend
+  "http://localhost:5173",                     // Your Local Vite Dev
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // Required because your Axios uses withCredentials: true
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Cookie"
+  ],
+  optionsSuccessStatus: 200, // Legacy browsers/Vercel edge compatibility
+};
+
+// 1. Apply CORS to handle all normal requests
+app.use(cors(corsOptions));
+
+// 2. Explicitly handle Preflight OPTIONS requests globally at the top
+app.options("*", cors(corsOptions));
+
 /* ------------------------- Security Middleware ------------------------- */
 app.use(
   helmet({
+    // Necessary so helmet doesn't block cross-origin resources
     crossOriginResourcePolicy: false,
     crossOriginEmbedderPolicy: false,
-  })
-);
-
-/* ---------------------------- CORS Setup ------------------------------- */
-const allowedOrigins = [
-  "https://write-my-readme-qc99f.vercel.app",
-  "http://localhost:5173",
-];
-
-// 1. This middleware will handle both normal requests and OPTIONS automatically
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Cookie"],
-    optionsSuccessStatus: 200
   })
 );
 
