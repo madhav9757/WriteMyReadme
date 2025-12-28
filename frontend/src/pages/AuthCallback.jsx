@@ -1,20 +1,22 @@
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import api from "@/api/api"; // your axios instance
 
 export default function AuthCallback() {
   const navigate = useNavigate();
-  const [params] = useSearchParams();
 
   useEffect(() => {
-    const token = params.get("token");
+    const verify = async () => {
+      try {
+        await api.get("/auth/me"); // cookie is sent automatically
+        navigate("/dashboard", { replace: true });
+      } catch {
+        navigate("/login", { replace: true });
+      }
+    };
 
-    if (token) {
-      localStorage.setItem("auth_token", token);
-      navigate("/dashboard", { replace: true });
-    } else {
-      navigate("/login", { replace: true });
-    }
-  }, [navigate, params]);
+    verify();
+  }, [navigate]);
 
   return <p>Authenticating...</p>;
 }
