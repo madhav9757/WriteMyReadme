@@ -4,7 +4,9 @@ export const authGuard = (req, res, next) => {
   const token = req.cookies?.auth_token;
 
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    // Add this log temporarily to debug
+    console.warn("No auth_token found in cookies. Cookies received:", req.cookies);
+    return res.status(401).json({ message: "Unauthorized: No token provided" });
   }
 
   try {

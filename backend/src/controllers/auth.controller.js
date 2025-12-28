@@ -68,11 +68,45 @@ export const logout = asyncHandler(async (req, res) => {
 
 /* ---------------- Current User ---------------- */
 export const getCurrentUser = asyncHandler(async (req, res) => {
+  console.log("--- Auth Debug Start ---");
+  
+  // 1. Check if cookies exist at all (indicates if cookie-parser is working)
+  console.log("All Cookies:", req.cookies);
+
+  // 2. Check for the specific token
   const token = req.cookies?.auth_token;
+  console.log("Auth Token Found:", token ? "Yes (length: " + token.length + ")" : "No");
+
+  // 3. Inspect Headers (Check if 'origin' and 'cookie' headers are arriving)
+  console.log("Origin Header:", req.headers.origin);
+  console.log("Raw Cookie Header:", req.headers.cookie);
+
   if (!token) {
-    return res.status(401).json({ success: false });
+    console.warn("❌ Auth failed: No auth_token cookie present in request.");
+    console.log("--- Auth Debug End ---");
+    return res.status(401).json({ 
+      success: false, 
+      debug: "No token found. Ensure frontend has 'withCredentials: true'." 
+    });
   }
 
-  const decoded = verifyJwt(token);
-  res.json({ success: true, user: decoded });
+  try {
+    // 4. Try to decode
+    const decoded = verifyJwt(token);
+    console.log("✅ Token verified successfully. User ID:", decoded.id);
+    
+    console.log("--- Auth Debug End ---");
+    return res.json({ success: true, user: decoded });
+    
+  } catch (error) {
+    // 5. Catch specific JWT errors (Expired vs. Invalid Secret)
+    console.error("❌ JWT Verification Error:", error.message);
+    console.log("--- Auth Debug End ---");
+    
+    return res.status(401).json({ 
+      success: false, 
+      message: "Invalid or expired token",
+      error: error.message 
+    });
+  }
 });
