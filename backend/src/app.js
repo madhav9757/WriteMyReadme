@@ -43,7 +43,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // 2. Explicitly handle Preflight OPTIONS requests globally at the top
-app.options("*", cors(corsOptions));
+// app.options("*", cors(corsOptions));
 /* ------------------------- Security Middleware ------------------------- */
 app.use(
   helmet({
