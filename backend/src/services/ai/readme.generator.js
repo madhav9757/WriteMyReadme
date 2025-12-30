@@ -39,7 +39,7 @@ export const generateReadmeService = async ({
 
     /* ------------------- AI Call ------------------- */
     const apiResponse = await client.chat.completions.create({
-      model: "openai/gpt-oss-20b:free",
+      model: "meta-llama/llama-3.1-8b-instruct",
       messages: [
         {
           role: "user",

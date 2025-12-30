@@ -7,18 +7,16 @@ import {
   Sparkles,
   FileCode,
   LayoutDashboard,
-  ArrowRight,
   ShieldCheck,
   Github,
   Zap,
   Lock,
   CheckCircle2,
-  Rocket,
   Code2,
   GitBranch,
   Star,
-  ExternalLink,
-  ChevronRight,
+  Terminal,
+  Cpu,
 } from "lucide-react";
 
 import { useAuth } from "@/context/AuthContext";
@@ -40,21 +38,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const containerVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      staggerChildren: 0.1,
-      ease: [0.21, 0.45, 0.32, 0.9],
-    },
+    transition: { staggerChildren: 0.15, delayChildren: 0.2 },
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0 },
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
 };
 
 export default function Home() {
@@ -62,225 +55,181 @@ export default function Home() {
   const navigate = useNavigate();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
   if (loading) {
     return (
       <div className="flex min-h-[calc(100vh-64px)] items-center justify-center p-6">
-        <Card className="w-full max-w-lg border-border/50 bg-background/50 backdrop-blur-xl">
-          <CardHeader className="items-center space-y-4 pt-10">
-            <Skeleton className="h-16 w-16 rounded-2xl" />
-            <div className="space-y-2 text-center">
-              <Skeleton className="h-8 w-48 mx-auto" />
-              <Skeleton className="h-4 w-64 mx-auto" />
-            </div>
-          </CardHeader>
-          <CardContent className="pb-10 pt-4">
-            <Skeleton className="h-12 w-full rounded-lg" />
-          </CardContent>
-        </Card>
+        <div className="w-full max-w-md space-y-4 text-center">
+          <Skeleton className="h-20 w-20 rounded-3xl mx-auto animate-pulse" />
+          <Skeleton className="h-8 w-64 mx-auto" />
+          <Skeleton className="h-4 w-48 mx-auto" />
+        </div>
       </div>
     );
   }
 
   const features = [
     {
-      icon: Zap,
-      text: "AI Analysis",
-      description: "Neural codebase parsing",
-      color: "text-amber-500",
-      bg: "bg-amber-500/10",
-    },
-    {
-      icon: Lock,
-      text: "OAuth 2.0",
-      description: "Scoped GitHub access",
-      color: "text-emerald-500",
-      bg: "bg-emerald-500/10",
-    },
-    {
-      icon: CheckCircle2,
-      text: "Standards",
-      description: "MDX & GFM compliant",
+      icon: Cpu,
+      text: "Neural Engine",
+      description: "Context-aware code parsing",
       color: "text-blue-500",
       bg: "bg-blue-500/10",
+    },
+    {
+      icon: Terminal,
+      text: "Developer First",
+      description: "Clean Markdown & MDX",
+      color: "text-purple-500",
+      bg: "bg-purple-500/10",
+    },
+    {
+      icon: ShieldCheck,
+      text: "Enterprise Grade",
+      description: "Secure OAuth integration",
+      color: "text-emerald-500",
+      bg: "bg-emerald-500/10",
     },
   ];
 
   return (
-    <div className="relative flex min-h-[calc(100vh-64px)] items-center justify-center overflow-hidden px-4 py-20">
-      {/* Subtle Background Elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-full opacity-[0.03] [mask-image:radial-gradient(ellipse_at_center,white,transparent)]">
-          <div className="absolute inset-0 bg-[grid-linear-gradient(to_right,#80808012_1px,transparent_1px),grid-linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
-        </div>
-        <div className="absolute left-1/2 top-1/4 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-primary/5 blur-[120px]" />
+    <div className="relative flex min-h-[calc(100vh-64px)] flex-col items-center justify-center overflow-hidden px-4 pb-20 pt-10">
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(var(--primary-rgb),0.08)_0,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150" />
       </div>
 
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-4xl"
+        className="z-10 w-full max-w-5xl"
       >
-        <Card className="relative overflow-hidden border-border/60 bg-background/80 shadow-2xl backdrop-blur-md">
-          <div className="absolute top-0 h-[1px] w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           
-          <CardHeader className="items-center space-y-6 pt-16 pb-8 text-center">
-            <AnimatePresence mode="wait">
-              {!user ? (
-                <motion.div
-                  key="unauth-header"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="space-y-6"
-                >
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border bg-gradient-to-b from-background to-muted shadow-sm">
-                    <Sparkles className="h-8 w-8 text-primary" />
-                  </div>
-                  <div className="space-y-2">
-                    <Badge variant="secondary" className="rounded-full px-4 py-1 text-[10px] uppercase tracking-widest font-bold border-primary/10">
-                      v2.0 Documentation Engine
-                    </Badge>
-                    <CardTitle className="text-5xl md:text-6xl font-bold tracking-tight">
-                      Repo<span className="text-primary">Sensei</span>
-                    </CardTitle>
-                    <CardDescription className="mx-auto max-w-md text-balance text-lg">
-                      Elevate your repositories with high-fidelity, AI-generated documentation powered by LLMs.
-                    </CardDescription>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="auth-header"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="flex flex-col items-center gap-4"
-                >
-                  <Avatar className="h-20 w-20 border-2 border-background ring-2 ring-primary/20 shadow-lg">
-                    <AvatarImage src={user.avatar_url} alt={user.login} />
-                    <AvatarFallback className="text-lg">
-                      {user.login?.slice(0, 2).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="space-y-1">
-                    <CardTitle className="text-3xl font-bold">Welcome, {user.name || user.login}</CardTitle>
-                    <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                      <ShieldCheck className="h-4 w-4 text-emerald-500" />
-                      <span className="text-sm font-medium">Verified Developer Instance</span>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </CardHeader>
-
-          <CardContent className="px-6 md:px-16 pb-12">
-            {!user ? (
-              <div className="space-y-10">
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <GitHubLoginButton />
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-tighter flex items-center gap-1.5">
-                    <Lock className="h-3 w-3" /> No write access required for public repos
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {features.map((feature, i) => (
-                    <Card key={i} className="border-border/40 bg-muted/30 transition-colors hover:bg-muted/50">
-                      <CardContent className="p-5 flex flex-col items-center text-center space-y-2">
-                        <div className={`p-2 rounded-lg ${feature.bg}`}>
-                          <feature.icon className={`h-5 w-5 ${feature.color}`} />
-                        </div>
-                        <h4 className="text-sm font-semibold">{feature.text}</h4>
-                        <p className="text-xs text-muted-foreground">{feature.description}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div className="grid gap-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Button
-                    size="lg"
-                    className="h-16 gap-3 text-base shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
-                    onClick={() => navigate("/dashboard")}
-                  >
-                    <LayoutDashboard className="h-5 w-5" />
-                    Console Dashboard
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="h-16 gap-3 text-base bg-background/50 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                    onClick={() => navigate("/generate")}
-                  >
-                    <FileCode className="h-5 w-5 text-primary" />
-                    New Generator
-                  </Button>
-                </div>
-
-                <div className="rounded-xl border border-border/50 bg-muted/20 p-6">
-                  <div className="grid grid-cols-3 divide-x divide-border/50">
-                    <div className="px-4 text-center">
-                      <p className="text-2xl font-bold">{user.public_repos || 0}</p>
-                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Repos</p>
-                    </div>
-                    <div className="px-4 text-center">
-                      <p className="text-2xl font-bold">{user.followers || 0}</p>
-                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Followers</p>
-                    </div>
-                    <div className="px-4 text-center">
-                      <p className="text-2xl font-bold">{user.following || 0}</p>
-                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Following</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </CardContent>
-
-          <Separator className="bg-border/40" />
-          
-          <CardFooter className="justify-center py-6 bg-muted/10">
-            <div className="flex items-center gap-6">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                      <Github className="h-4 w-4" />
-                    </a>
-                  </TooltipTrigger>
-                  <TooltipContent>Open Source on GitHub</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <div className="h-4 w-[1px] bg-border/60" />
-              <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                System Operational: GPT-4o
-              </div>
+          {/* Left Column: Hero Text */}
+          <motion.div variants={fadeInUp} className="flex flex-col justify-center space-y-8 lg:col-span-7">
+            <div className="space-y-4">
+              <Badge variant="outline" className="w-fit border-primary/20 bg-primary/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-primary backdrop-blur-md">
+                <Sparkles className="mr-2 h-3 w-3 fill-primary" />
+                Now Powered by GPT-4o
+              </Badge>
+              <h1 className="text-6xl font-extrabold tracking-tight md:text-7xl lg:text-8xl">
+                Repo<span className="bg-gradient-to-b from-primary to-primary/60 bg-clip-text text-transparent">Sensei</span>
+              </h1>
+              <p className="max-w-xl text-balance text-lg font-medium text-muted-foreground md:text-xl">
+                The intelligent layer for your codebase. Transform complex repositories into elegant, readable documentation in seconds.
+              </p>
             </div>
-          </CardFooter>
-        </Card>
 
+            <div className="flex flex-wrap gap-4">
+              {!user ? (
+                <GitHubLoginButton />
+              ) : (
+                <div className="flex gap-4">
+                  <Button size="lg" className="h-14 px-8 text-base font-bold shadow-xl shadow-primary/20 transition-all hover:scale-105" onClick={() => navigate("/dashboard")}>
+                    Go to Dashboard
+                  </Button>
+                  <Button size="lg" variant="outline" className="h-14 px-8 text-base font-bold backdrop-blur-sm transition-all hover:bg-background/80" onClick={() => navigate("/generate")}>
+                    Start Generating
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground/60">
+              <div className="flex -space-x-2">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-8 w-8 rounded-full border-2 border-background bg-muted" />
+                ))}
+              </div>
+              <span>Joined by 2,000+ developers</span>
+            </div>
+          </motion.div>
+
+          {/* Right Column: User Card or Features */}
+          <motion.div variants={fadeInUp} className="lg:col-span-5">
+            <Card className="relative overflow-hidden border-border/40 bg-background/40 shadow-[0_0_50px_-12px_rgba(0,0,0,0.3)] backdrop-blur-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
+              
+              <CardContent className="p-8">
+                {user ? (
+                  <div className="space-y-8">
+                    <div className="flex items-center gap-5">
+                      <Avatar className="h-20 w-20 border-4 border-background shadow-2xl">
+                        <AvatarImage src={user.avatar_url} />
+                        <AvatarFallback className="text-xl font-bold">{user.login?.[0]}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className="text-2xl font-bold">{user.name || user.login}</h3>
+                        <p className="text-sm font-medium text-muted-foreground">@{user.login}</p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-3">
+                      {[
+                        { label: "Repos", val: user.public_repos },
+                        { label: "Stars", val: user.followers },
+                        { label: "Follow", val: user.following }
+                      ].map((stat) => (
+                        <div key={stat.label} className="rounded-2xl bg-muted/30 p-4 text-center border border-border/20">
+                          <p className="text-xl font-bold">{stat.val || 0}</p>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">{stat.label}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-muted-foreground">Account Status</span>
+                        <span className="flex items-center gap-1.5 font-bold text-emerald-500">
+                          <CheckCircle2 className="h-4 w-4" /> Pro Plan
+                        </span>
+                      </div>
+                      <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }} 
+                          animate={{ width: "65%" }} 
+                          className="h-full bg-primary" 
+                        />
+                      </div>
+                      <p className="text-[10px] text-center text-muted-foreground uppercase font-bold">Usage: 650 / 1000 tokens</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid gap-4">
+                    {features.map((f, i) => (
+                      <div key={i} className="group flex items-start gap-4 rounded-2xl p-4 transition-colors hover:bg-muted/50">
+                        <div className={`mt-1 rounded-xl p-2.5 ${f.bg} ${f.color} transition-transform group-hover:scale-110`}>
+                          <f.icon className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold">{f.text}</h4>
+                          <p className="text-sm text-muted-foreground">{f.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+
+        {/* Footer Logos */}
         <motion.div 
-          variants={itemVariants}
-          className="mt-12 flex flex-col items-center gap-4 text-center"
+          variants={fadeInUp}
+          className="mt-24 flex flex-col items-center gap-8 border-t border-border/40 pt-16"
         >
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground/50">
-            Trusted by developers at
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-muted-foreground/40">
+            Engineered for modern workflows
           </p>
-          <div className="flex flex-wrap justify-center gap-8 grayscale opacity-30 hover:opacity-100 transition-opacity">
-             <div className="flex items-center gap-2 font-bold text-lg italic"><GitBranch className="h-5 w-5"/> GitFlow</div>
-             <div className="flex items-center gap-2 font-bold text-lg italic"><Code2 className="h-5 w-5"/> CodeSync</div>
-             <div className="flex items-center gap-2 font-bold text-lg italic"><Star className="h-5 w-5"/> OpenSource</div>
+          <div className="flex flex-wrap justify-center gap-12 opacity-30 grayscale transition-all hover:opacity-100 hover:grayscale-0">
+             <div className="flex items-center gap-2 text-xl font-black"><GitBranch className="text-primary"/> GitFlow</div>
+             <div className="flex items-center gap-2 text-xl font-black"><Code2 className="text-primary"/> CodeSync</div>
+             <div className="flex items-center gap-2 text-xl font-black"><Star className="text-primary"/> OpenSource</div>
           </div>
         </motion.div>
       </motion.div>
