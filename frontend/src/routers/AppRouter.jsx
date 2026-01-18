@@ -37,7 +37,7 @@ export default function AppRouter() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
               className={cn(
-                "container mx-auto flex min-h-[calc(100vh-64px)] max-w-7xl flex-col px-4 py-6 md:px-8"
+                "w-full min-h-[calc(100vh-64px)] flex flex-col px-4 py-6 md:px-8 lg:px-12"
               )}
             >
               <Routes location={location}>

@@ -118,7 +118,7 @@ export default function RepoCard({ repo }) {
         </AnimatePresence>
 
         {/* Header */}
-        <CardHeader className="pb-3 min-w-0">
+        <CardHeader className="p-4 pb-2 min-w-0">
           <div className="flex items-start justify-between gap-2 min-w-0">
             <div className="min-w-0 flex-1">
               <CardTitle className="truncate text-sm font-semibold">
@@ -163,7 +163,7 @@ export default function RepoCard({ repo }) {
         </CardHeader>
 
         {/* Content */}
-        <CardContent className="flex-1 min-h-0 px-4 pb-3">
+        <CardContent className="flex-1 min-h-0 px-4 py-2">
           <p className="line-clamp-2 text-sm text-muted-foreground">
             {repo.description || "AI-ready repository documentation"}
           </p>
@@ -184,7 +184,7 @@ export default function RepoCard({ repo }) {
         </CardContent>
 
         {/* Footer */}
-        <CardFooter className="flex gap-2 pt-3">
+        <CardFooter className="flex gap-2 p-4 pt-2">
           <Button
             asChild
             variant="outline"

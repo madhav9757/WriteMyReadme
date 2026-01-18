@@ -147,9 +147,8 @@ export default function RepoList() {
                   className="h-10 w-10 bg-background/50 border-muted-foreground/20"
                 >
                   <RefreshCcw
-                    className={`h-3.5 w-3.5 transition-all ${
-                      loading ? "animate-spin text-primary" : "text-muted-foreground"
-                    }`}
+                    className={`h-3.5 w-3.5 transition-all ${loading ? "animate-spin text-primary" : "text-muted-foreground"
+                      }`}
                   />
                 </Button>
               </TooltipTrigger>
@@ -244,7 +243,7 @@ export default function RepoList() {
                       transition: { staggerChildren: 0.04 },
                     },
                   }}
-                  className="grid gap-3 pb-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                  className="grid gap-3 pb-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
                 >
                   {filtered.map((repo) => (
                     <motion.div

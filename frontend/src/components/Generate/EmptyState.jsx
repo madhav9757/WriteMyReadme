@@ -16,18 +16,18 @@ export default function EmptyState({ navigate }) {
       >
         <Card className="border-dashed border-2 bg-card/50 backdrop-blur-sm shadow-2xl overflow-hidden">
           <CardContent className="flex flex-col items-center pt-16 pb-12 px-8 text-center relative">
-            
+
             {/* Decorative gradient orb */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/20 rounded-full blur-3xl" />
-            
+
             {/* Animated icon */}
             <motion.div
               initial={{ scale: 0.8, rotate: -10 }}
-              animate={{ 
+              animate={{
                 scale: [0.8, 1, 0.9, 1],
                 rotate: [-10, 0, -5, 0]
               }}
-              transition={{ 
+              transition={{
                 duration: 2,
                 repeat: Infinity,
                 repeatType: "reverse",
@@ -49,7 +49,7 @@ export default function EmptyState({ navigate }) {
               <h3 className="text-2xl font-bold tracking-tight">
                 Where's the README?
               </h3>
-              
+
               <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
                 It looks like there's no README content to display. Generate one from your repository or navigate back to try again.
               </p>
@@ -57,8 +57,8 @@ export default function EmptyState({ navigate }) {
 
             {/* Action buttons */}
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full">
-              <Button 
-                onClick={() => navigate("/dashboard")} 
+              <Button
+                onClick={() => navigate("/dashboard")}
                 className="group w-full sm:w-auto gap-2 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
               >
                 <PlusCircle className="h-4 w-4 transition-transform group-hover:rotate-90" />
@@ -71,9 +71,9 @@ export default function EmptyState({ navigate }) {
                   <Sparkles className="h-3 w-3" />
                 </motion.div>
               </Button>
-              
-              <Button 
-                onClick={() => navigate(-1)} 
+
+              <Button
+                onClick={() => navigate(-1)}
                 variant="outline"
                 className="w-full sm:w-auto gap-2"
               >
@@ -88,7 +88,7 @@ export default function EmptyState({ navigate }) {
                 Quick Tips
               </div>
               <div className="grid gap-3 text-left">
-                <motion.div 
+                <motion.div
                   whileHover={{ x: 4 }}
                   className="flex items-start gap-3 p-3 rounded-lg border bg-muted/30 hover:bg-muted/50 transition-colors cursor-default"
                 >
@@ -99,7 +99,7 @@ export default function EmptyState({ navigate }) {
                   </div>
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                   whileHover={{ x: 4 }}
                   className="flex items-start gap-3 p-3 rounded-lg border bg-muted/30 hover:bg-muted/50 transition-colors cursor-default"
                 >
@@ -110,7 +110,7 @@ export default function EmptyState({ navigate }) {
                   </div>
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                   whileHover={{ x: 4 }}
                   className="flex items-start gap-3 p-3 rounded-lg border bg-muted/30 hover:bg-muted/50 transition-colors cursor-default"
                 >
@@ -124,7 +124,7 @@ export default function EmptyState({ navigate }) {
             </div>
           </CardContent>
         </Card>
-        
+
         {/* Footer tagline */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -133,7 +133,7 @@ export default function EmptyState({ navigate }) {
           className="mt-8 text-center space-y-2"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/40">
-            RepoSensei Documentation Engine
+            Write My Readme Documentation Engine
           </p>
           <div className="flex items-center justify-center gap-2 text-[10px] text-muted-foreground/60">
             <div className="h-1 w-1 rounded-full bg-primary animate-pulse" />

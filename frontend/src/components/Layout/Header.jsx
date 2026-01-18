@@ -39,7 +39,7 @@ export default function Header({ toggleSidebar }) {
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const searchInputRef = useRef(null);
-  
+
   const { scrollY } = useScroll();
   const headerOpacity = useTransform(scrollY, [0, 50], [1, 0.98]);
   const headerBlur = useTransform(scrollY, [0, 50], [0, 16]);
@@ -49,7 +49,7 @@ export default function Header({ toggleSidebar }) {
     setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
-    
+
     // Keyboard shortcut for search
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -60,7 +60,7 @@ export default function Header({ toggleSidebar }) {
         setSearchOpen(false);
       }
     };
-    
+
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -77,33 +77,32 @@ export default function Header({ toggleSidebar }) {
   const isActive = (path) => location.pathname === path;
 
   const navItems = [
-    { path: '/', label: 'Home'} ,
+    { path: '/', label: 'Home' },
     { path: '/dashboard', label: 'Dashboard' },
     { path: '/generate', label: 'Generate' },
   ];
 
   return (
     <TooltipProvider delayDuration={200}>
-      <motion.header 
-        style={{ 
+      <motion.header
+        style={{
           opacity: headerOpacity,
         }}
-        className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
-          scrolled 
-            ? 'bg-background/70 shadow-lg shadow-black/5 dark:shadow-black/20' 
+        className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${scrolled
+            ? 'bg-background/70 shadow-lg shadow-black/5 dark:shadow-black/20'
             : 'bg-background/90'
-        }`}
+          }`}
       >
-        <div 
+        <div
           className="absolute inset-0 backdrop-blur-xl"
           style={{
             backdropFilter: mounted ? `blur(${scrolled ? 16 : 12}px) saturate(180%)` : undefined,
             WebkitBackdropFilter: mounted ? `blur(${scrolled ? 16 : 12}px) saturate(180%)` : undefined,
           }}
         />
-        
-        <div className="relative flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-          
+
+        <div className="relative flex h-16 items-center justify-between px-4 sm:px-6 lg:px-12 w-full">
+
           {/* Left Section */}
           <div className="flex items-center gap-4 lg:gap-6">
             {toggleSidebar && (
@@ -132,7 +131,7 @@ export default function Header({ toggleSidebar }) {
               whileTap={{ scale: 0.97 }}
               className="flex items-center gap-3 group cursor-pointer"
             >
-              <motion.div 
+              <motion.div
                 whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1 }}
                 transition={{ duration: 0.5 }}
                 className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary via-primary to-primary/70 shadow-lg shadow-primary/30 transition-all group-hover:shadow-xl group-hover:shadow-primary/50"
@@ -152,8 +151,8 @@ export default function Header({ toggleSidebar }) {
                 />
               </motion.div>
               <div className="hidden sm:flex flex-col items-start">
-                <span className="text-base font-bold tracking-tight leading-none">
-                  Repo<span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Sensei</span>
+                <span className="text-base font-bold tracking-tight leading-none whitespace-nowrap">
+                  Write My <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Readme</span>
                 </span>
                 <span className="text-[10px] text-muted-foreground font-medium">AI-Powered Docs</span>
               </div>
@@ -161,7 +160,7 @@ export default function Header({ toggleSidebar }) {
 
             {/* Navigation Links */}
             {user && (
-              <motion.nav 
+              <motion.nav
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -178,11 +177,10 @@ export default function Header({ toggleSidebar }) {
                       variant={isActive(item.path) ? 'secondary' : 'ghost'}
                       size="sm"
                       onClick={() => navigate(item.path)}
-                      className={`h-9 px-4 text-sm font-medium transition-all ${
-                        isActive(item.path) 
-                          ? 'bg-accent shadow-sm' 
+                      className={`h-9 px-4 text-sm font-medium transition-all ${isActive(item.path)
+                          ? 'bg-accent shadow-sm'
                           : 'hover:bg-accent/50'
-                      }`}
+                        }`}
                     >
                       {item.label}
                       {isActive(item.path) && (
@@ -204,8 +202,8 @@ export default function Header({ toggleSidebar }) {
             {user && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ 
-                  opacity: 1, 
+                animate={{
+                  opacity: 1,
                   scale: 1,
                   width: searchOpen ? "auto" : "0px",
                   minWidth: searchOpen ? "300px" : "0px",
@@ -244,7 +242,7 @@ export default function Header({ toggleSidebar }) {
 
           {/* Right Section */}
           <div className="flex items-center gap-2">
-            
+
             {/* Search Toggle */}
             {user && !searchOpen && (
               <Tooltip>
@@ -310,7 +308,7 @@ export default function Header({ toggleSidebar }) {
                     className="h-10 w-10 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent/80 relative overflow-hidden group"
                     onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                   >
-                    <motion.div 
+                    <motion.div
                       className="absolute inset-0 bg-gradient-to-br from-amber-500/20 via-yellow-500/20 to-orange-500/20 dark:from-blue-500/20 dark:via-indigo-500/20 dark:to-purple-500/20"
                       animate={{
                         opacity: [0, 0.3, 0],
@@ -360,8 +358,8 @@ export default function Header({ toggleSidebar }) {
               >
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="h-10 gap-2.5 px-2 hover:bg-accent/80 data-[state=open]:bg-accent rounded-lg group"
                     >
                       <motion.div
@@ -387,8 +385,8 @@ export default function Header({ toggleSidebar }) {
                       <ChevronDown className="h-3.5 w-3.5 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="end" 
+                  <DropdownMenuContent
+                    align="end"
                     className="w-80 mt-2 p-2"
                     forceMount
                   >
@@ -418,9 +416,9 @@ export default function Header({ toggleSidebar }) {
                         </div>
                       </div>
                     </DropdownMenuLabel>
-                    
+
                     <DropdownMenuSeparator className="my-2" />
-                    
+
                     <div className="px-2 py-2">
                       <div className="grid grid-cols-3 gap-2">
                         {[
@@ -428,7 +426,7 @@ export default function Header({ toggleSidebar }) {
                           { label: 'Followers', value: user.followers || 0, color: 'from-green-500/10 to-green-500/5' },
                           { label: 'Following', value: user.following || 0, color: 'from-purple-500/10 to-purple-500/5' },
                         ].map((stat, idx) => (
-                          <motion.div 
+                          <motion.div
                             key={stat.label}
                             whileHover={{ scale: 1.05, y: -2 }}
                             className={`space-y-1 p-3 rounded-lg bg-gradient-to-br ${stat.color} hover:shadow-md transition-all cursor-default border border-border/50`}
@@ -441,16 +439,16 @@ export default function Header({ toggleSidebar }) {
                     </div>
 
                     <DropdownMenuSeparator className="my-2" />
-                    
-                    <DropdownMenuItem 
+
+                    <DropdownMenuItem
                       className="text-sm cursor-pointer rounded-md py-2.5 px-3"
                       onClick={() => window.open(user.html_url, "_blank")}
                     >
                       <Github className="mr-3 h-4 w-4" />
                       View GitHub Profile
                     </DropdownMenuItem>
-                    
-                    <DropdownMenuItem 
+
+                    <DropdownMenuItem
                       className="text-sm cursor-pointer rounded-md py-2.5 px-3"
                       onClick={() => navigate("/dashboard")}
                     >
@@ -458,7 +456,7 @@ export default function Header({ toggleSidebar }) {
                       Dashboard
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       className="text-sm cursor-pointer rounded-md py-2.5 px-3"
                       onClick={() => navigate("/settings")}
                     >
@@ -467,7 +465,7 @@ export default function Header({ toggleSidebar }) {
                     </DropdownMenuItem>
 
                     <DropdownMenuSeparator className="my-2" />
-                    
+
                     <div className="p-1">
                       <LogoutButton />
                     </div>

@@ -48,7 +48,7 @@ export default function Dashboard() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="max-w-[1400px] mx-auto space-y-8 p-4 md:p-8"
+      className="w-full space-y-8 p-4 md:p-8 lg:p-12"
     >
       <DashboardHeader
         user={user}

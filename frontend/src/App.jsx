@@ -14,17 +14,17 @@ export default function App() {
 
   useEffect(() => {
     setMounted(true);
-    
+
     // Preload critical fonts
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'font';
     link.type = 'font/woff2';
     link.crossOrigin = 'anonymous';
-    
+
     // Add smooth scroll behavior
     document.documentElement.style.scrollBehavior = 'smooth';
-    
+
     return () => {
       document.documentElement.style.scrollBehavior = '';
     };
@@ -44,7 +44,7 @@ export default function App() {
             <div className="relative h-16 w-16 rounded-full border-4 border-primary/30 border-t-primary animate-spin" />
           </div>
           <p className="text-sm font-medium text-muted-foreground animate-pulse">
-            Loading RepoSensei...
+            Loading Write My Readme...
           </p>
         </motion.div>
       </div>
@@ -66,7 +66,7 @@ export default function App() {
               {/* Animated background grid */}
               <div className="pointer-events-none fixed inset-0 -z-10">
                 <div className="absolute inset-0 bg-[radial-gradient(hsl(var(--foreground))_1px,transparent_1px)] [background-size:16px_16px] opacity-[0.03] animate-[grid_20s_linear_infinite]" />
-                
+
                 {/* Gradient orbs */}
                 <motion.div
                   animate={{

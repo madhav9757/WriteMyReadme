@@ -51,7 +51,7 @@ export default function Login() {
 
             <div className="space-y-1">
               <CardTitle className="text-2xl tracking-tight">
-                Sign in to RepoSensei
+                Sign in to Write My Readme
               </CardTitle>
               <CardDescription className="text-sm">
                 Authenticate with GitHub to access your repositories
@@ -80,10 +80,10 @@ export default function Login() {
           </CardContent>
         </Card>
 
-        <div className="mt-6 flex items-center justify-center gap-2 text-[10px] text-muted-foreground">
+        <div className="mt-6 flex items-center justify-center gap-2 text-[10px] text-muted-foreground uppercase tracking-widest">
           <Github className="h-3 w-3" />
-          <span className="uppercase tracking-wider">
-            RepoSensei · GitHub Authentication
+          <span>
+            Write My Readme · GitHub Authentication
           </span>
         </div>
       </motion.div>

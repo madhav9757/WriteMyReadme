@@ -39,12 +39,12 @@ export default function Content({ content, view }) {
             <Card className="border shadow-xl shadow-black/5 dark:shadow-black/20 overflow-hidden bg-gradient-to-br from-background via-background to-muted/20">
               <CardContent className="p-0">
                 <ScrollArea className="h-[calc(100vh-12rem)]">
-                  <article className="prose prose-zinc dark:prose-invert max-w-none p-8 md:p-12 lg:p-16
+                  <article className="prose prose-zinc dark:prose-invert max-w-none p-6 md:p-8 lg:p-10
                     prose-headings:scroll-m-20 prose-headings:font-bold prose-headings:tracking-tight
-                    prose-h1:text-5xl prose-h1:mb-8 prose-h1:border-b-2 prose-h1:border-primary/20 prose-h1:pb-4
-                    prose-h2:border-b prose-h2:border-border prose-h2:pb-3 prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-                    prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
-                    prose-p:leading-7 prose-p:text-muted-foreground prose-p:my-4
+                    prose-h1:text-4xl prose-h1:mb-6 prose-h1:border-b-2 prose-h1:border-primary/20 prose-h1:pb-3
+                    prose-h2:border-b prose-h2:border-border prose-h2:pb-2 prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+                    prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
+                    prose-p:leading-normal prose-p:text-muted-foreground prose-p:my-3
                     prose-a:text-primary prose-a:no-underline prose-a:font-medium hover:prose-a:underline hover:prose-a:underline-offset-4
                     prose-strong:text-foreground prose-strong:font-semibold
                     prose-blockquote:border-l-4 prose-blockquote:border-primary/40 prose-blockquote:bg-muted/40 
@@ -64,7 +64,7 @@ export default function Content({ content, view }) {
                         code({ inline, className, children, ...props }) {
                           const match = /language-(\w+)/.exec(className || "");
                           const codeString = String(children).replace(/\n$/, "");
-                          
+
                           return !inline && match ? (
                             <div className="group relative my-6 overflow-hidden rounded-xl border bg-zinc-950 dark:bg-zinc-900 shadow-xl">
                               {/* Code block header */}
@@ -75,8 +75,8 @@ export default function Content({ content, view }) {
                                     <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
                                     <div className="h-3 w-3 rounded-full bg-green-500/80" />
                                   </div>
-                                  <Badge 
-                                    variant="secondary" 
+                                  <Badge
+                                    variant="secondary"
                                     className="h-5 px-2 text-[10px] font-mono uppercase tracking-wider bg-zinc-800 dark:bg-zinc-700 text-zinc-300 border-0"
                                   >
                                     {match[1]}
@@ -121,8 +121,8 @@ export default function Content({ content, view }) {
                               </SyntaxHighlighter>
                             </div>
                           ) : (
-                            <code 
-                              className="relative rounded-md bg-muted px-[0.4rem] py-[0.25rem] font-mono text-[0.9em] font-semibold text-foreground border border-border/50" 
+                            <code
+                              className="relative rounded-md bg-muted px-[0.4rem] py-[0.25rem] font-mono text-[0.9em] font-semibold text-foreground border border-border/50"
                               {...props}
                             >
                               {children}
@@ -222,8 +222,8 @@ export default function Content({ content, view }) {
                       <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
                       <div className="h-3 w-3 rounded-full bg-green-500/80" />
                     </div>
-                    <Badge 
-                      variant="secondary" 
+                    <Badge
+                      variant="secondary"
                       className="h-5 px-2 text-[10px] font-mono uppercase tracking-wider bg-zinc-800 dark:bg-zinc-700 text-zinc-300 border-0"
                     >
                       Markdown
@@ -239,10 +239,10 @@ export default function Content({ content, view }) {
                   language="markdown"
                   style={theme === "dark" ? oneDark : oneLight}
                   showLineNumbers
-                  lineNumberStyle={{ 
-                    minWidth: "3.5em", 
+                  lineNumberStyle={{
+                    minWidth: "3.5em",
                     color: theme === "dark" ? "#4b5563" : "#9ca3af",
-                    textAlign: "right", 
+                    textAlign: "right",
                     paddingRight: "1.5em",
                     userSelect: "none"
                   }}

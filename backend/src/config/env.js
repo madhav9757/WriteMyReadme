@@ -35,5 +35,5 @@ export const ENV = {
   GITHUB_PAT: required("GITHUB_ACCESS_TOKEN"),
 
   /* AI */
-  OPENROUTER_API_KEY: required("OPENROUTER_API_KEY"),
+  OPENROUTER_API_KEY: required("OPENROUTER_API_KEY").trim(),
 };

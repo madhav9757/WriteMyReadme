@@ -1,13 +1,6 @@
-import OpenAI from "openai";
-import { ENV } from "../../config/env.js";
 import { buildReadmePrompt } from "./prompt.builder.js";
 import { logger } from "../../utils/logger.js";
-
-/* ------------------- OpenRouter Client ------------------- */
-const client = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: ENV.OPENROUTER_API_KEY,
-});
+import { callAiWithFallback } from "./ai.client.js";
 
 /* ------------------- Generate README Service ------------------- */
 export const generateReadmeService = async ({
@@ -37,9 +30,8 @@ export const generateReadmeService = async ({
       keyFilesContent,
     });
 
-    /* ------------------- AI Call ------------------- */
-    const apiResponse = await client.chat.completions.create({
-      model: "meta-llama/llama-3.1-8b-instruct",
+    /* ------------------- AI Call with Fallback ------------------- */
+    const content = await callAiWithFallback({
       messages: [
         {
           role: "user",
@@ -48,12 +40,6 @@ export const generateReadmeService = async ({
       ],
       temperature: 0.6, // lower = more factual
     });
-
-    const content = apiResponse?.choices?.[0]?.message?.content;
-
-    if (!content) {
-      throw new Error("AI returned empty README");
-    }
 
     logger.info(`README generated for ${owner}/${repo}`);
     return content;
