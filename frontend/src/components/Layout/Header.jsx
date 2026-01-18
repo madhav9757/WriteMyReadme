@@ -77,6 +77,7 @@ export default function Header({ toggleSidebar }) {
   const isActive = (path) => location.pathname === path;
 
   const navItems = [
+    { path: '/', label: 'Home'} ,
     { path: '/dashboard', label: 'Dashboard' },
     { path: '/generate', label: 'Generate' },
   ];

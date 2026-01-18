@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 
 import Header from "@/components/Layout/Header";
-import Dashboard from "@/pages/Dashboard";
+import Dashboard from "@/components/Dashboard/Dashboard";
 import Generate from "@/components/Generate/Generate";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";

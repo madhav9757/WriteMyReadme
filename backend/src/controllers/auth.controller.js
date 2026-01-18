@@ -50,8 +50,8 @@ export const githubCallback = asyncHandler(async (req, res) => {
       login: githubUser.login,
     });
 
-    // Store the mapping: JWT -> GitHub Token
-    tokenStore.set(jwtToken, githubToken);
+    // Store the mapping: JWT -> { githubToken, user }
+    tokenStore.set(jwtToken, { githubToken, user: githubUser });
 
     res.cookie("auth_token", jwtToken, {
       httpOnly: true,
@@ -99,7 +99,7 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
 
   try {
     const decoded = verifyJwt(token);
-    
+
     // Verify the token is still in our store
     if (!tokenStore.has(token)) {
       return res.status(401).json({
@@ -108,12 +108,11 @@ export const getCurrentUser = asyncHandler(async (req, res) => {
       });
     }
 
+    const { user } = tokenStore.get(token);
+
     return res.json({
       success: true,
-      user: {
-        id: decoded.id,
-        login: decoded.login,
-      },
+      user,
     });
   } catch (error) {
     logger.error("JWT verification error:", error.message);

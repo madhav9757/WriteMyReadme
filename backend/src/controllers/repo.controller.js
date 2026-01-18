@@ -6,7 +6,7 @@ import { tokenStore } from "../services/auth/token.store.js";
 export const getUserRepos = async (req, res) => {
   // Get JWT token from cookies
   const jwtToken = req.cookies?.auth_token;
-  
+
   if (!jwtToken) {
     return res.status(401).json({
       success: false,
@@ -15,8 +15,8 @@ export const getUserRepos = async (req, res) => {
   }
 
   // Get GitHub token from token store using JWT
-  const githubToken = tokenStore.get(jwtToken);
-  
+  const { githubToken } = tokenStore.get(jwtToken);
+
   if (!githubToken) {
     return res.status(401).json({
       success: false,
@@ -61,7 +61,7 @@ export const getRepoTree = async (req, res) => {
 
   // Get JWT token from cookies
   const jwtToken = req.cookies?.auth_token;
-  
+
   if (!jwtToken) {
     return res.status(401).json({
       success: false,
@@ -70,8 +70,8 @@ export const getRepoTree = async (req, res) => {
   }
 
   // Get GitHub token from token store
-  const githubToken = tokenStore.get(jwtToken);
-  
+  const { githubToken } = tokenStore.get(jwtToken);
+
   if (!githubToken) {
     return res.status(401).json({
       success: false,

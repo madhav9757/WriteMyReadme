@@ -18,7 +18,8 @@ export const generateReadme = async (req, res) => {
           .status(401)
           .json({ success: false, message: "Unauthorized" });
       }
-      githubToken = tokenStore.get(jwtToken);
+      const storedData = tokenStore.get(jwtToken);
+      githubToken = storedData?.githubToken;
     } else {
       githubToken = ENV.GITHUB_PAT;
     }
@@ -92,7 +93,7 @@ export const generateReadme = async (req, res) => {
         scripts = packageJson.scripts;
         dependencies = packageJson.dependencies;
         devDependencies = packageJson.devDependencies;
-      } catch {}
+      } catch { }
     }
 
     /* --------------------- Existing README --------------------- */
